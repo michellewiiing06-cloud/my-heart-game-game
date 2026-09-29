@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to My Heart ♡</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:#fff;
+ font-family:Arial,sans-serif;
+ background:
+ radial-gradient(circle at 20% 10%,#63264d 0,transparent 30%),
+ radial-gradient(circle at 85% 90%,#38162e 0,transparent 35%),
+ #09050b;
+ overflow-x:hidden;
+}
+.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px}
+.card{
+ width:min(900px,100%);padding:34px 24px;border-radius:28px;
+ background:rgba(18,7,18,.86);border:1px solid rgba(255,105,180,.28);
+ box-shadow:0 20px 80px rgba(0,0,0,.45),0 0 40px rgba(255,70,170,.08);
+ text-align:center;
+}
+h1{font-family:Georgia,serif;font-size:clamp(38px,8vw,76px);margin:8px 0 18px}
+h2{font-size:clamp(25px,5vw,42px)}
+.sub{color:#ffc4e0;font-size:18px}
+.hearts{color:#ff69b4;letter-spacing:8px;font-size:23px;margin:12px 0}
+button{
+ border:0;border-radius:999px;padding:13px 25px;margin:9px;
+ background:#ff5eaa;color:white;font-size:17px;font-weight:bold;
+ cursor:pointer;box-shadow:0 7px 25px rgba(255,94,170,.2)
+}
+button:hover{transform:translateY(-1px)}
+input{
+ width:min(360px,90%);padding:14px 18px;border:1px solid #ff9ed0;
+ border-radius:999px;background:#140914;color:#fff;text-align:center;
+ font-size:20px;outline:none
+}
+.hidden{display:none}
+#wrong,.msg{min-height:26px;color:#ffb4d9;margin-top:13px}
+.typing{white-space:pre-line;line-height:1.75;font-size:clamp(17px,2.4vw,21px);max-width:700px;margin:25px auto}
+.footer{opacity:.65;margin-top:25px;font-size:14px}
+
+/* puzzle */
+.diffbox{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:850px;margin:25px auto}
+.scene{
+ position:relative;aspect-ratio:16/10;min-height:270px;overflow:hidden;
+ border-radius:18px;border:1px solid #ffffff20;
+ background:linear-gradient(#17253c 0 55%,#9a735d 55% 70%,#39251f 70%);
+}
+.scene:after{content:"";position:absolute;left:0;right:0;bottom:0;height:30%;background:#38231e}
+.scene-title{position:absolute;top:9px;left:0;right:0;z-index:3;font-weight:bold;text-shadow:0 2px 5px #000}
+.moon{position:absolute;width:55px;height:55px;border-radius:50%;background:#f5e6ad;right:9%;top:15%;box-shadow:0 0 22px #f5e6ad66}
+.window{position:absolute;left:8%;top:12%;width:22%;height:37%;border:6px solid #151321;background:#253753}
+.window:before,.window:after{content:"";position:absolute;background:#151321}
+.window:before{width:6px;height:100%;left:50%;transform:translateX(-50%)}
+.window:after{height:6px;width:100%;top:50%;transform:translateY(-50%)}
+.bookshelf{position:absolute;left:5%;bottom:28%;width:25%;height:38%;background:#3c2118;border:6px solid #24140f;z-index:1}
+.bookshelf i{display:block;height:25%;border-bottom:3px solid #24140f}
+.book{position:absolute;width:18%;height:5%;left:47%;bottom:25%;background:#d79ab6;transform:rotate(-8deg);z-index:2}
+.drawer{position:absolute;width:24%;height:15%;right:6%;bottom:23%;background:#5a3427;border:4px solid #2b1813;z-index:2}
+.hotspot{position:absolute;z-index:8;background:transparent;border:3px solid transparent;box-shadow:none;margin:0;padding:0;border-radius:18px}
+.hotspot:hover{border-color:#fff4}
+.hmoon{right:5%;top:9%;width:23%;height:28%}
+.hbooks{left:3%;bottom:25%;width:30%;height:45%}
+.hbook{left:41%;bottom:19%;width:30%;height:18%}
+.hdrawer{right:3%;bottom:17%;width:31%;height:28%}
+.progress{font-size:19px;color:#ffc4e0}
+
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:620px;margin:25px auto}
+.choice-grid button{margin:0;min-height:58px}
+
+.quiz-options{max-width:650px;margin:auto}
+.quiz-options button{display:block;width:90%;margin:10px auto}
+.good{color:#9dffbe;font-size:21px;font-weight:bold}.bad{color:#ff9bbd;font-size:21px;font-weight:bold}
+.score{font-size:38px;font-weight:bold;color:#ff9dcc}
+
+@media(max-width:650px){
+ .diffbox{grid-template-columns:1fr;gap:10px}
+ .scene{min-height:220px}
+ .card{padding:28px 15px}
+ .choice-grid{grid-template-columns:1fr}
+ button{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="screen">
+<div class="card">
+
+<section id="welcome">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h1>Welcome to My Heart ♡</h1>
+<div class="sub">
+Welcome. We are glad to have you in this game.<br><br>
+This little game took a ridiculous amount of time, effort, and patience to make.
+It was made just for you. I hope you like it. ♡
+</div>
+<button onclick="go('password')">Enter ♡</button>
+</section>
+
+<section id="password" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>Before you enter…</h2>
+<p>There is a little secret protecting this place.</p>
+<input id="code" type="password" inputmode="numeric" placeholder="Enter password">
+<br><button onclick="unlock()">Unlock ♡</button>
+<div id="wrong"></div>
+</section>
+
+<section id="puzzle1" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>Puzzle One</h2>
+<p>Find all <b>4 differences</b>.</p>
+<div class="diffbox">
+<div class="scene">
+<div class="scene-title">SCENE A</div>
+<div class="moon"></div><div class="window"></div>
+<div class="bookshelf"><i></i><i></i><i></i><i></i></div>
+<div class="book"></div><div class="drawer"></div>
+<button class="hotspot hmoon" onclick="found(1)" aria-label="Moon"></button>
+<button class="hotspot hbooks" onclick="found(2)" aria-label="Bookshelf"></button>
+<button class="hotspot hbook" onclick="found(3)" aria-label="Book"></button>
+<button class="hotspot hdrawer" onclick="found(4)" aria-label="Drawer"></button>
+</div>
+<div class="scene" style="filter:saturate(.9)">
+<div class="scene-title">SCENE B</div>
+<div class="moon" style="width:43px;height:43px;top:18%;right:10%"></div>
+<div class="window"></div>
+<div class="bookshelf"><i></i><i style="height:12%"></i><i></i><i></i></div>
+<div class="book" style="background:#9fd0d8;transform:rotate(13deg)"></div>
+<div class="drawer" style="height:22%"></div>
+</div>
+</div>
+<div class="progress" id="progress">0 / 4 differences found</div>
+</section>
+
+<section id="transition" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>I'm sorry… 😭</h2>
+<p>But I just had to add one more before you get your surprise.</p>
+<p>You're doing pretty well so far.</p>
+<button onclick="go('puzzle2')">Continue ♡</button>
+</section>
+
+<section id="puzzle2" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>Puzzle Two</h2>
+<p>Just a normal little logic question.</p>
+<h2>2, 4, 6, 8, __, __, __</h2>
+<input id="sequence" placeholder="Answer">
+<br><button onclick="checkSequence()">Check</button>
+<div id="sequenceMsg" class="msg"></div>
+</section>
+
+<section id="intro" class="hidden">
+<div class="hearts pulse">♥ ♥ ♥ ♥ ♥ ♥ ♥</div>
+<h1>Okay…</h1>
+<p class="typing">The puzzles are done.
+
+Now you get to see the part that was actually made for you.
+
+There are six little choices waiting for you.
+Choose whatever you want.</p>
+<button onclick="go('choices')">Continue ♡</button>
+</section>
+
+<section id="choices" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥ ♥ ♥</div>
+<h2>Choose one ♡</h2>
+<p>Each one has something a little different waiting inside.</p>
+<div class="choice-grid">
+<button onclick="go('letter')">💌 A little letter</button>
+<button onclick="go('likes')">💗 Things I like about you</button>
+<button onclick="go('annoy')">😭 Things that annoy me</button>
+<button onclick="go('memory')">🫶 A memory</button>
+<button onclick="go('never')">🤫 Something I've never said</button>
+<button onclick="go('surprise')">🎮 The surprise game</button>
+</div>
+</section>
+
+<section id="letter" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>For you 💌</h2>
+<p class="typing">Hey you. ❤️
+
+I don't always know how to say everything properly, so I thought I'd make something instead.
+
+I genuinely like being around you. I like the stupid conversations, the random jokes, the little moments that probably seem completely ordinary but somehow become memories.
+
+You matter to me more than a simple message could explain.
+
+So… here is my unnecessarily complicated way of saying that. 😭❤️</p>
+<button onclick="go('choices')">Back</button>
+</section>
+
+<section id="likes" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>Things I like about you 💗</h2>
+<p class="typing" id="likesText"></p>
+<button onclick="go('choices')">Back</button>
+</section>
+
+<section id="annoy" class="hidden">
+<div class="hearts">😭 😭 😭</div>
+<h2>Things that annoy me</h2>
+<p class="typing">When you ignore me.
+When you don't talk to me.
+When you disappear for no reason.
+Basically… when you make me wonder where you went. 😭</p>
+<button onclick="go('choices')">Back</button>
+</section>
+
+<section id="memory" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>A memory 🫶</h2>
+<p class="typing">Every moment spent with you is a good memory.
+
+Even the random ones.
+Even the stupid ones.
+Even the moments we probably won't remember years from now.
+
+Somehow, they're still special because they happened with you.</p>
+<button onclick="go('choices')">Back</button>
+</section>
+
+<section id="never" class="hidden">
+<div class="hearts">🤫 ♥ 🤫 ♥ 🤫</div>
+<h2>Something I've never said before…</h2>
+<p class="typing">I genuinely like being with you here.
+
+Not because I have to.
+Not because there's some reason behind it.
+
+I just… like having you around. ❤️</p>
+<button onclick="go('choices')">Back</button>
+</section>
+
+<section id="surprise" class="hidden">
+<div class="hearts">🎮 ♥ 🎮 ♥ 🎮</div>
+<h2>Okay. Time for the actual test. 😭</h2>
+<p>Ten questions. Your score will decide how well you know me.</p>
+<p>And yes… I will react to every answer. 💀</p>
+<button onclick="startQuiz()">Start the quiz ♡</button>
+</section>
+
+<section id="quiz" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+<h2>How well do you know me?</h2>
+<p id="question"></p>
+<div class="quiz-options" id="options"></div>
+<div id="reaction"></div>
+</section>
+
+<section id="result" class="hidden">
+<div class="hearts">♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥</div>
+<h2>You finished! ♡</h2>
+<div class="score" id="finalScore"></div>
+<p class="typing">At least you tried. 😭❤️
+
+Maybe you knew everything.
+Maybe you guessed half of them.
+Maybe I exposed how predictable I am.
+
+Either way, you made it to the end, and that's what matters.
+
+Thank you for playing my ridiculous little game.</p>
+<button onclick="go('final')">One last thing…</button>
+</section>
+
+<section id="final" class="hidden">
+<div class="hearts pulse">♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥</div>
+<h1>I still love you. ♡</h1>
+<p class="typing">No matter what score you got.
+
+No matter how many you got right.
+
+Thank you for being here.
+Thank you for being you.
+
+And thank you for making this worth creating.
+
+You matter to me. ❤️</p>
+<div class="footer">Made with way too much effort, just for you. ♡</div>
+</section>
+
+</div></div>
+
+<script>
+const sections=["welcome","password","puzzle1","transition","puzzle2","intro","choices","letter","likes","annoy","memory","never","surprise","quiz","result","final"];
+function go(id){sections.forEach(x=>document.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden");window.scrollTo(0,0)}
+function unlock(){
+ const v=document.getElementById("code").value;
+ if(v==="21112011")go("puzzle1");
+ else document.getElementById("wrong").textContent="Nope! Hint: my birthday. 🔒";
+}
+let differences=new Set();
+function found(n){
+ if(differences.has(n))return;
+ differences.add(n);
+ document.getElementById("progress").textContent=differences.size+" / 4 differences found";
+ if(differences.size===4)setTimeout(()=>go("transition"),600);
+}
+function checkSequence(){
+ const v=document.getElementById("sequence").value.replace(/\s/g,"");
+ const m=document.getElementById("sequenceMsg");
+ if(v==="10,12,14"){m.textContent="Correct! ♡";m.className="msg good";setTimeout(()=>go("intro"),800)}
+ else{m.textContent="Not quite 😭 Try again.";m.className="msg bad"}
+}
+const likes=[
+"Your personality.","Your sense of humour.","Your little habits.","The way you make ordinary moments memorable.",
+"The random conversations.","The stupid jokes.","The chaos.","The fact that you can make me smile.",
+"The way you make things interesting.","The little things you probably don't notice.",
+"How comfortable it feels to talk to you.","Your presence.","The memories we make.","The way you are simply you."
+];
+document.getElementById("likesText").textContent=likes.map((x,i)=>(i+1)+". "+x).join("\n\n");
+
+const questions=[
+["What is my favourite colour?",["Black","Grey","Pink","Blue"],"Grey"],
+["What do I enjoy most?",["Being with you","Sleeping","Being alone","Nothing"],"Being with you"],
+["What kind of surprise do I like?",["Thoughtful","Expensive","Loud","Random"],"Thoughtful"],
+["What matters more to me?",["Effort","Money","Popularity","Winning"],"Effort"],
+["What makes a good memory?",["A moment together","A gift","A photo","A place"],"A moment together"],
+["If I say “I'm fine”, what might I mean?",["I need a little care","Leave me alone forever","Nothing","I forgot"],"I need a little care"],
+["What annoys me most?",["Being ignored","Rain","Homework","Music"],"Being ignored"],
+["What do I value in a person?",["Genuine effort","Being perfect","Being famous","Being loud"],"Genuine effort"],
+["What would I rather receive?",["A meaningful message","A random object","Nothing","A trophy"],"A meaningful message"],
+["What is the point of this game?",["To make you smile","To test your IQ","To win money","To scare you"],"To make you smile"]
+];
+let q=0,score=0;
+function startQuiz(){q=0;score=0;go("quiz");renderQuestion()}
+function renderQuestion(){
+ document.getElementById("question").textContent=questions[q][0];
+ document.getElementById("reaction").textContent="";
+ document.getElementById("options").innerHTML=questions[q][1].map((x,i)=>'<button onclick="answer('+i+')">'+x+'</button>').join("");
+}
+function answer(i){
+ const correct=questions[q][1][i]===questions[q][2];
+ if(correct){score++;document.getElementById("reaction").textContent="OH, YOU KNOW ME. YOU'RE THE BEST! 💗";document.getElementById("reaction").className="good"}
+ else{document.getElementById("reaction").textContent="MONSTER MODE 😭 HOW DO YOU NOT KNOW THIS?!";document.getElementById("reaction").className="bad"}
+ document.querySelectorAll("#options button").forEach(b=>b.disabled=true);
+ q++;
+ setTimeout(()=>{
+  if(q<questions.length)renderQuestion();
+  else{go("result");document.getElementById("finalScore").textContent=score+" / 10"}
+ },900);
+}
+</script>
+</body>
+</html>
